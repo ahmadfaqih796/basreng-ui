@@ -56,5 +56,5 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            pm2 restart 
+            pm2 restart ${{ env.NAME_DIR }}
             pm2 list
