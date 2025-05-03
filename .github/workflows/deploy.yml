@@ -5,17 +5,18 @@ on:
     branches:
       - master
 
+env:
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  SSH_USER: ${{ secrets.SSH_USER }}
+  SSH_HOST: ${{ secrets.SSH_HOST }}
+  WORK_DIR: ${{ secrets.WORK_DIR }}
+  MAIN_BRANCH: ${{ secrets.MAIN_BRANCH }}
+  NAME_DIR: basreng-ui
+
 jobs:
   run_pull:
     name: pull
     runs-on: ubuntu-latest
-    env:
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_USER: ${{ secrets.SSH_USER }}
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      WORK_DIR: ${{ secrets.WORK_DIR }}
-      MAIN_BRANCH: ${{ secrets.MAIN_BRANCH }}
-      NAME_DIR: basreng-ui
     steps:
       - name: install ssh key
         run: |
@@ -55,5 +56,5 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            pm2 restart ${{ env.NAME_DIR }}
+            pm2 restart 
             pm2 list
