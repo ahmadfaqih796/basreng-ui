@@ -43,7 +43,7 @@ jobs:
       - name: Run build script
         run: npm run build
       - name: List build output (if applicable)
-        run: ls -al ${{ secrets.WORK_DIR }}
+        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "ls -al ${{ secrets.WORK_DIR }}/dist"
 
   deploy:
     name: deploy
