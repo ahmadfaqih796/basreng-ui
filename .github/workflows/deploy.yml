@@ -30,6 +30,5 @@ jobs:
             git pull
             npm run build
             pm2 restart ${{ env.NAME_DIR }}
-            pm2 list
       - name: cleanup
         run: rm -rf ~/.ssh
