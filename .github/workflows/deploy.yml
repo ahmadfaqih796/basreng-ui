@@ -23,7 +23,7 @@ jobs:
           echo "${{ env.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -H ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: connect and pull
-        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORK_DIR }} && git checkout ${{ env.MAIN_BRANCH }} && git pull"
+        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORK_DIR }} && git checkout ${{ env.MAIN_BRANCH }} && git pull && pm2 list"
       - name: cleanup
         run: rm -rf ~/.ssh
 
@@ -42,14 +42,12 @@ jobs:
         run: npm install
       - name: Run build script
         run: npm run build
-      - name: check pm2
-        run: pm2 list
 
-  deploy:
-    name: deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: deploy with PM2
-        run: pm2 list
+  # deploy:
+  #   name: deploy
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: deploy with PM2
+  #       run: pm2 list
       
