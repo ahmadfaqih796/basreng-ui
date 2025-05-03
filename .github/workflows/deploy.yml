@@ -7,7 +7,7 @@ on:
 
 jobs:
   run_pull:
-    name: Pull from GitHub
+    name: pull
     runs-on: ubuntu-latest
     env:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -15,14 +15,15 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       WORK_DIR: ${{ secrets.WORK_DIR }}
       MAIN_BRANCH: ${{ secrets.MAIN_BRANCH }}
+      NAME_DIR: basreng-ui
     steps:
       - name: install ssh key
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ env.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: connect and pull
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull"
+        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORK_DIR }} && git checkout ${{ env.MAIN_BRANCH }} && git pull"
       - name: cleanup
         run: rm -rf ~/.ssh
 
@@ -39,9 +40,16 @@ jobs:
           npm -v
       - name: Install dependencies
         run: npm install
-      - name: List node_modules directory
-        run: ls -al node_modules
       - name: Run build script
         run: npm run build
       - name: List build output (if applicable)
-        run: ls -al ${{ secrets.WORK_DIR }}
+        run: ls -al ${{ secrets.WORK_DIR }}/dist
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy with PM2
+        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "pm2 restart ${{ env.NAME_DIR }}"
+      
