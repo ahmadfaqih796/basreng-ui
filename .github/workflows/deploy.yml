@@ -49,5 +49,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploy with PM2
-        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "pm2 restart ${{ env.NAME_DIR }}"
+        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "pm2 list"
       
