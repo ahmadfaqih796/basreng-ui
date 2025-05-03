@@ -25,7 +25,7 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            cd ${{ env.WORK_DIR }}
+            cd /var/www/ahmadfaqiharifin.blog/basreng-ui
             git checkout ${{ env.MAIN_BRANCH }}
             git pull
             npm run build
