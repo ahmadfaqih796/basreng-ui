@@ -14,36 +14,6 @@ env:
   NAME_DIR: basreng-ui
 
 jobs:
-  run_pull:
-    name: pull
-    runs-on: ubuntu-latest
-    steps:
-      - name: install ssh key
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ env.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ env.SSH_HOST }} >> ~/.ssh/known_hosts
-      - name: connect and pull
-        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "cd ${{ env.WORK_DIR }} && git checkout ${{ env.MAIN_BRANCH }} && git pull && pm2 list"
-      - name: cleanup
-        run: rm -rf ~/.ssh
-
-  build:
-    name: build
-    needs: run_pull
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code (you might need this if not already checked out)
-        uses: actions/checkout@v3
-      - name: Show Node.js and npm versions
-        run: |
-          node -v
-          npm -v
-      - name: Install dependencies
-        run: npm install
-      - name: Run build script
-        run: npm run build
-
   deploy:
     name: deploy
     needs: build
@@ -56,5 +26,11 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
+            cd ${{ env.WORK_DIR }}
+            git checkout ${{ env.MAIN_BRANCH }}
+            git pull
+            npm run build
             pm2 restart ${{ env.NAME_DIR }}
             pm2 list
+      - name: cleanup
+        run: rm -rf ~/.ssh
