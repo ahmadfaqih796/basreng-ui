@@ -45,9 +45,9 @@ jobs:
 
   deploy:
     name: deploy
-    needs: build
+    needs: run_pull
     runs-on: ubuntu-latest
     steps:
       - name: deploy with PM2
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pm2 list"
+        run: pm2 list
       
