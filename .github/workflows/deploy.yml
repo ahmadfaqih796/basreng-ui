@@ -42,8 +42,6 @@ jobs:
         run: npm install
       - name: Run build script
         run: npm run build
-      - name: List build output (if applicable)
-        run: ssh ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "ls -al ${{ secrets.WORK_DIR }}/dist"
 
   deploy:
     name: deploy
