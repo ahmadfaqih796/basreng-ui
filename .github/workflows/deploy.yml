@@ -26,8 +26,6 @@ jobs:
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
             cd ${{ env.WORK_DIR }}
-            git fetch --all
-            git checkout ${{ env.MAIN_BRANCH }}
             git pull
             npm run build
             pm2 restart ${{ env.NAME_DIR }}
