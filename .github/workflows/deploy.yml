@@ -9,7 +9,8 @@ env:
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
   SSH_USER: ${{ secrets.SSH_USER }}
   SSH_HOST: ${{ secrets.SSH_HOST }}
-  WORK_DIR: ${{ secrets.WORK_DIR }}
+  # WORK_DIR: ${{ secrets.WORK_DIR }}
+  WORK_DIR: ~/development/basreng/basreng-ui
   MAIN_BRANCH: ${{ secrets.MAIN_BRANCH }}
   NAME_DIR: basreng-ui
 
