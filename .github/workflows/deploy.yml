@@ -27,6 +27,7 @@ jobs:
           script: |
             cd ${{ env.WORK_DIR }}
             git pull
+            npm i
             npm run build
             pm2 restart ${{ env.NAME_DIR }}
       - name: cleanup
