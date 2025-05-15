@@ -1,4 +1,3 @@
-import React from "react";
 import { NavbarLanding } from "../../layouts/landing/navbar.landing";
 
 const HomePage = () => {

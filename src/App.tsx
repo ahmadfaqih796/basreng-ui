@@ -1,4 +1,3 @@
-import { useState } from "react";
 import HomePage from "./features/landing/home.page";
 
 function App() {
